@@ -1,0 +1,15 @@
+variable "pool-path" {
+    type = "string"
+    default = "/home/x1/vm"
+}
+
+variable "ubuntu_img" {
+    type = "string"
+    default = "/mnt/hgfs/iso/bionic-server-cloudimg-amd64.img"
+}
+
+variable "centos_img" {
+    type = "string"
+    default = "/mnt/hgfs/iso/CentOS-8-GenericCloud-8.1.1911-20200113.3.x86_64.qcow2"
+}
+

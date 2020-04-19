@@ -7,5 +7,5 @@ provider "libvirt" {
 resource "libvirt_pool" "vm-pool" {
   name = "vm-pool"
   type = "dir"
-  path = "/home/x1/vm"
+  path = "${var.pool-path}"
 }
