@@ -15,7 +15,7 @@ data "template_file" "centos_user_data" {
 }
 
 # add cloudinit disk to pool
-resource "libvirt_cloudinit_disk" "centos cloudinitiso" {
+resource "libvirt_cloudinit_disk" "centos_cloudinitiso" {
   name      = "centos_cloud.iso"
   pool      = "${libvirt_pool.vm-pool.name}"
   user_data = "${data.template_file.centos_user_data.rendered}"
