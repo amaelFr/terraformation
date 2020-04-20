@@ -1,6 +1,5 @@
 #cloud-config
 users:
-  - default
   - name: vagrant
     groups: sudo
     shell: /bin/bash
@@ -9,7 +8,6 @@ users:
       - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC1ielecAsCLPQsTmumK84gznnchi62Fdj1ba/12LS/rtaiJ5SNg5gLbwE2yCAX7JzlOJ/d3Zrv11r3pqzkhkeiMUMKhuVutpxx598ZawHa9kWSkaiyanEOMiS0/7mBX4o4kPvmtD2DPa281Bnnc67ybrrc7vQ43Trd0/kQe13zHOwRhjJpjtW5yxKbKFgUBicQSuL1J6JZ2oafr9yZfSVvwVnGklhREEKBp3c6whZbJDMjx9WuIpsaPr2WVAvZhHySdw+WTlCXvjOdWJ+DgrgPk42ueb+s4Eijwk1mbf1netbdmEY5QAPyRwpHtVIRdyceQkLOGKdxKuR8m4AyUjb0M1UU5kCHsd7LiSXDX0e82jSEvt0/nBO//cJEaJpejfgaC/YR7DWDUPKIcxUE8m7b3ImuLiID3WJpEYe+LHfuDvByIgTYJSEnG9s/ZpYzpp6wyRDwAtO6466hhx/LF9VWT7djtnc8VcRrBM9Vum4rhJw+L0Ly5qBZF9QvernEgVE=
 chpasswd:
   list: |
-    root:linux
     vagrant:linux
   expire: False
 package_upgrade: true
