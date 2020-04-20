@@ -10,14 +10,24 @@
 #   user_data = "${data.template_file.ubuntu_user_data.rendered}"
 # }
 
-data "template_file" "centos_user_data" {
-  template = "${file("./confs/centos_cloud_init.yml")}"
+# data "template_file" "centos_user_data" {
+#   template = "${file("./confs/centos_cloud_init.yml")}"
+# }
+
+# resource "libvirt_cloudinit_disk" "centos_cloudinitiso" {
+#   name      = "centos_cloud.iso"
+#   pool      = "${libvirt_pool.vm-pool.name}"
+#   user_data = "${data.template_file.centos_user_data.rendered}"
+# }
+
+data "template_file" "freebsd_user_data" {
+  template = "${file("./confs/freebsd_cloud_init.yml")}"
 }
 
-resource "libvirt_cloudinit_disk" "centos_cloudinitiso" {
-  name      = "centos_cloud.iso"
+resource "libvirt_cloudinit_disk" "freebsd_cloudinitiso" {
+  name      = "freebsd_cloud.iso"
   pool      = "${libvirt_pool.vm-pool.name}"
-  user_data = "${data.template_file.centos_user_data.rendered}"
+  user_data = "${data.template_file.freebsd_user_data.rendered}"
 }
 
 # data "template_file" "windows_user_data" {

@@ -13,8 +13,17 @@ variable "centos_img" {
     default = "/mnt/hgfs/iso/CentOS-8-GenericCloud-8.1.1911-20200113.3.x86_64.qcow2"
 }
 
-variable "windows_img" {
+variable "freebsd_img" {
     type = "string"
-    default = "/mnt/hgfs/iso/CentOS-8-GenericCloud-8.1.1911-20200113.3.x86_64.qcow2"
+    default = "/mnt/hgfs/iso/FreeBSD-12.1-STABLE-amd64.qcow2"
 }
 
+variable "windows_img" {
+    type = "string"
+    default = "/mnt/hgfs/virtualDossier/packer/output-qemu/Win2016GUI/Win2016GUI.qcow2"
+}
+
+variable "pfsense_img" {
+    type = "string"
+    default = "/mnt/hgfs/virtualDossier/packer/output-qemu/pfsense/pfsense.qcow2"
+}
