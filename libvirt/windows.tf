@@ -1,46 +1,62 @@
 # # create a libvirt image
-# resource "libvirt_volume" "win2016GUI" {
-#  name = "win2016GUI.qcow2"
-#  pool = libvirt_pool.vm-pool.name
-#  source ="/mnt/hgfs/virtualDossier/packer/output-qemu/Win2016GUI/Win2016GUI.qcow2"
-#  format = "qcow2"
+# resource "libvirt_volume" "windows" {
+#   name   = "windows.qcow2"
+#   pool   = "${libvirt_pool.vm-pool.name}"
+#   source = "${var.windows_img}"
+#   format = "qcow2"
+# }
+
+# resource "libvirt_volume" "windows_rootfs" {
+#   name           = "windows_rootfs"
+#   base_volume_id = "${libvirt_volume.windows.id}"
+#   size           = "70000000000"
 # }
 
 # # Create the machine
-# resource "libvirt_domain" "winLab1" {
-#   name = "winLab1"
+# resource "libvirt_domain" "windows" {
+#   name   = "winLab1"
 #   memory = "8192"
-#   vcpu = 6
+#   vcpu   = 6
 
-# #   cloudinit = "${libvirt_cloudinit_disk.commoninit.id}"
+#   #   cloudinit = "${libvirt_cloudinit_disk.commoninit.id}"
 
-# #   network_interface {
-# #     network_name = libvirt_network.lab_ansible_net.name
-# #   }
-
-# #   console {
-# #     type        = "pty"
-# #     target_port = "0"
-# #     target_type = "serial"
-# #   }
-
-# #   console {
-# #       type        = "pty"
-# #       target_type = "virtio"
-# #       target_port = "1"
-# #   }
-
-#   disk {
-#        volume_id = libvirt_volume.win2016GUI.id
+#   network_interface {
+#     network_name = "default"
+#     # wait_for_lease = true
+#     addresses = ["192.168.122.2"]
+#     mac       = "AA:BB:CC:11:22:22"
 #   }
 
-# #   graphics {
-# #     type = "vnc"
-# #     listen_type = "address"
-# #     autoport = "true"
-# #   }
+#   network_interface {
+#     network_id = "${libvirt_network.lab_ansible_net.id}"
+#     # wait_for_lease = true
+#     addresses = ["10.0.1.200"]
+#     mac       = "AA:BB:CC:11:22:66"
+#   }
+
+#   console {
+#     type        = "pty"
+#     target_type = "serial"
+#     target_port = "0"
+#   }
+
+#   console {
+#     type        = "pty"
+#     target_type = "virtio"
+#     target_port = "1"
+#   }
+
+#   disk {
+#     volume_id = "${libvirt_volume.windows_rootfs.id}"
+#   }
+
+#   graphics {
+#     type        = "spice"
+#     listen_type = "address"
+#     autoport    = "true"
+#   }
 # }
 
-# # output "ip_addresses" {
-# #   value = "${libvirt_domain.domain.*.network_interface.0.addresses}"
-# # }
+# output "ip_addresses" {
+#   value = "${libvirt_domain.windows.network_interface.0.addresses}"
+# }

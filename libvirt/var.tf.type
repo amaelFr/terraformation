@@ -13,3 +13,8 @@ variable "centos_img" {
     default = "/mnt/hgfs/iso/CentOS-8-GenericCloud-8.1.1911-20200113.3.x86_64.qcow2"
 }
 
+variable "windows_img" {
+    type = "string"
+    default = "/mnt/hgfs/iso/CentOS-8-GenericCloud-8.1.1911-20200113.3.x86_64.qcow2"
+}
+
