@@ -24,10 +24,15 @@ data "template_file" "freebsd_user_data" {
   template = "${file("./confs/freebsd_cloud_init.yml")}"
 }
 
+data "template_file" "freebsd_network" {
+  template = "${file("confs/freebsd_network.yml")}"
+}
+
 resource "libvirt_cloudinit_disk" "freebsd_cloudinitiso" {
   name      = "freebsd_cloud.iso"
   pool      = "${libvirt_pool.vm-pool.name}"
   user_data = "${data.template_file.freebsd_user_data.rendered}"
+  network_config = "${data.template_file.freebsd_network.rendered}"
 }
 
 # data "template_file" "windows_user_data" {
