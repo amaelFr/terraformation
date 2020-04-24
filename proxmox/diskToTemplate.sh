@@ -2,28 +2,30 @@
 
 usage(){
 echo " -h|-s -n (-i -w)"
-echo "-h                  help"
-echo "-s          sourcefile(http ou local)"
-echo "-n            vm name"
-echo "-w   is the vm a windows one"
-echo "-i             vmid of the created vm(>0)"
-echo "-c          add-cloudinitdisk"
-echo "-t        new vm has a template"
+echo "-h                    help"
+echo "-s                    sourcefile(http ou local)"
+echo "-n                    vm name"
+echo "-w                    is the vm a windows one"
+echo "-i                    vmid of the created vm(>0)"
+echo "-c                    add-cloudinitdisk"
+echo "-t                    new vm has a template"
+echo "-v                    vga serial (like cloud image)"
 }
 
 
-WIN="0"
 SOURCE=""
 NAME=""
 HELP="0"
 CLOUDINIT="0"
 TEMPLATE="0"
+VGA="0"
+WIN="0"
 
 VMSTORAGE="local-zfs"
 
 VMID="${RANDOM:0:4}"
 
-while getopts "hwcts:n:i:" OPTION; do
+while getopts "hvcts:n:i:" OPTION; do
     case "${OPTION}"
     in
         h)          HELP="1";;
@@ -31,6 +33,7 @@ while getopts "hwcts:n:i:" OPTION; do
         n)          NAME=${OPTARG};;
         i)          VMID=${OPTARG};;
         w)          WIN="1";;
+        v)          VGA="1";;
         c)          CLOUDINIT="1";;
         t)          TEMPLATE="1";;
         ?)          usage >&2
@@ -93,8 +96,13 @@ if [[ $? == "1" ]]; then
     exit 1
 fi
 
+if [[ $VGA == "1" ]]; then
+    qm set ${VMID} --serial0 socket --vga serial0
+    echo "Adding vga to vm $NAME"
+fi
+
 if [[ $CLOUDINIT == "1" ]]; then
-    qm set ${VMID} --ide2 ${VMSTORAGE}:cloudinit --serial0 socket --vga serial0
+    qm set ${VMID} --ide2 ${VMSTORAGE}:cloudinit
     echo "Adding cloudinit disk to vm $NAME"
 fi
 

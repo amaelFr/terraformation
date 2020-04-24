@@ -20,20 +20,20 @@
 #   user_data = "${data.template_file.centos_user_data.rendered}"
 # }
 
-data "template_file" "freebsd_user_data" {
-  template = "${file("./confs/freebsd_cloud_init.yml")}"
-}
+# data "template_file" "freebsd_user_data" {
+#   template = "${file("./confs/freebsd_cloud_init.yml")}"
+# }
 
-data "template_file" "freebsd_network" {
-  template = "${file("confs/freebsd_network.yml")}"
-}
+# data "template_file" "freebsd_network" {
+#   template = "${file("confs/freebsd_network.yml")}"
+# }
 
-resource "libvirt_cloudinit_disk" "freebsd_cloudinitiso" {
-  name      = "freebsd_cloud.iso"
-  pool      = "${libvirt_pool.vm-pool.name}"
-  user_data = "${data.template_file.freebsd_user_data.rendered}"
-  network_config = "${data.template_file.freebsd_network.rendered}"
-}
+# resource "libvirt_cloudinit_disk" "freebsd_cloudinitiso" {
+#   name      = "freebsd_cloud.iso"
+#   pool      = "${libvirt_pool.vm-pool.name}"
+#   user_data = "${data.template_file.freebsd_user_data.rendered}"
+#   network_config = "${data.template_file.freebsd_network.rendered}"
+# }
 
 # data "template_file" "windows_user_data" {
 #   template = "${file("./confs/windows_cloud_init.yml")}"
@@ -45,12 +45,17 @@ resource "libvirt_cloudinit_disk" "freebsd_cloudinitiso" {
 #   user_data = "${data.template_file.windows_user_data.rendered}"
 # }
 
-# data "template_file" "pfsense_user_data" {
-#   template = "${file("./confs/pfsense_cloud_init.yml")}"
-# }
+data "template_file" "pfsense_user_data" {
+  template = "${file("./confs/pfsense_cloud_init.yml")}"
+}
 
-# resource "libvirt_cloudinit_disk" "pfsense_cloudinitiso" {
-#   name      = "pfsense_cloud.iso"
-#   pool      = "${libvirt_pool.vm-pool.name}"
-#   user_data = "${data.template_file.pfsense_user_data.rendered}"
-# }
+data "template_file" "pfsense_network" {
+  template = "${file("confs/pfsense_network.yml")}"
+}
+
+resource "libvirt_cloudinit_disk" "pfsense_cloudinitiso" {
+  name      = "pfsense_cloud.iso"
+  pool      = "${libvirt_pool.vm-pool.name}"
+  user_data = "${data.template_file.pfsense_user_data.rendered}"
+  # network_config = "${data.template_file.pfsense_network.rendered}"
+}
