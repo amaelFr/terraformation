@@ -1,0 +1,55 @@
+{
+  "provider": {
+    "openstack": [
+      {
+        "user_name": "admin",
+        "tenant_name": "admin",
+        "password": "Ertyuiop",
+        "auth_url": "http://192.168.1.53/identity",
+        "region": "RegionOne"
+      }
+    ]
+  },
+  "data": {
+    "openstack_networking_network_v2": {
+      "public_network": {
+        "name": "public"
+      }
+    },
+    "openstack_networking_subnet_v2": {
+      "public_subNet": {
+        "network_id": "${data.openstack_networking_network_v2.public_network.id}",
+        "cidr": "172.24.4.0/24"
+      }
+    }
+  },
+  "resource": {
+    "openstack_networking_network_v2": {
+      "lab_network_internal_network": {
+        "name": "lab_network_internal_network"
+      },
+      "lab_network_internaltest_network": {
+        "name": "lab_network_internaltest_network"
+      }
+    },
+    "openstack_networking_subnet_v2": {
+      "lab_subnet_internal_network": {
+        "cidr": "172.20.20.0/24",
+        "network_id": "${openstack_networking_network_v2.lab_network_internal_network.id}",
+        "name": "lab_subnet_internal_network"
+      },
+      "lab_subnet_internaltest_network": {
+        "cidr": "172.20.21.0/24",
+        "network_id": "${openstack_networking_network_v2.lab_network_internaltest_network.id}",
+        "name": "lab_subnet_internaltest_network"
+      }
+    },
+    "openstack_compute_instance_v2": {
+      "optional": {
+        "name": "optional",
+        "image_name": "ubuntu20.04",
+        "flavor_id": 1
+      }
+    }
+  }
+}

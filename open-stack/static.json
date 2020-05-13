@@ -1,0 +1,14 @@
+{
+    "images": [
+        {
+            "type": "ubuntu",
+            "version": "20.04",
+            "name": "ubuntu20.04"
+        },
+        {
+            "type": "ubuntu",
+            "version": "18.04",
+            "name": "ubuntu18.04"
+        }
+    ]
+}

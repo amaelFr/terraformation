@@ -1,0 +1,33 @@
+{
+    "publicNet": {
+        "exist": true,
+        "name": "public",
+        "cidr": "172.24.4.0/24"
+    },
+    "networks": [
+        {
+            "name": "internal_network",
+            "cidr": "172.20.20.0/24"
+        },
+        {
+            "name": "internaltest_network",
+            "cidr": "172.20.21.0/24"
+        }
+    ],
+    "machines": [
+        {
+            "name": "optional",
+            "type": "ubuntu",
+            "version": "20.04",
+            "ips":[
+                "172.24.4.201"
+            ]
+        },
+        {
+            "type": "router",
+            "ips":[
+                "172.24.4.201"
+            ]
+        }
+    ]
+}
