@@ -3,12 +3,22 @@
         {
             "type": "ubuntu",
             "version": "20.04",
-            "name": "ubuntu20.04"
+            "name": "ubuntu20.04",
+            "cloud-init":"/home/x1/Documents/3proj/terraform/cloud-init/ubuntu_cloud_init.yml",
+            "defaultSsh": true
         },
         {
             "type": "ubuntu",
             "version": "18.04",
-            "name": "ubuntu18.04"
+            "name": "ubuntu18.04",
+            "cloud-init":"/home/x1/Documents/3proj/terraform/cloud-init/ubuntu_cloud_init.yml"
+        },
+        {
+            "type": "windows",
+            "version": "2016",
+            "name": "windows2016",
+            "cloud-init":"/home/x1/Documents/3proj/terraform/cloud-init/windows_cloud_init.yml",
+            "defaultWinrm": true
         }
     ]
 }

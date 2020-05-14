@@ -1,0 +1,92 @@
+{
+    "AD": {
+        "children": [
+            "domainController"
+        ],
+        "hosts": [
+            "windowsLab2"
+        ]
+    },
+    "_meta": {
+        "hostvars": {
+            "windowsLab1": {
+                "DNSIP": [
+                    "192.168.29.160"
+                ],
+                "ansible_connection": "winrm",
+                "ansible_host": "172.24.4.212",
+                "ansible_host_tmp": "192.168.29.134",
+                "ansible_password": "V@grant1",
+                "ansible_user": "Administrator",
+                "ansible_winrm_port": 5985,
+                "ansible_winrm_scheme": "http",
+                "ansible_winrm_transport": "basic",
+                "domain": "win.lab",
+                "hostname": "ADmaster",
+                "image": {
+                    "type": "windows",
+                    "version": 2016
+                },
+                "interfaces": [
+                    {
+                        "gateway": "192.168.29.2",
+                        "name": "Ethernet0",
+                        "subnet": 24
+                    }
+                ]
+            },
+            "windowsLab2": {
+                "DNSIP": [
+                    "192.168.29.160"
+                ],
+                "ansible_connection": "winrm",
+                "ansible_host": "172.24.4.211",
+                "ansible_password": "V@grant1",
+                "ansible_user": "Administrator",
+                "ansible_winrm_port": 5985,
+                "ansible_winrm_scheme": "http",
+                "ansible_winrm_transport": "basic",
+                "domain": "win.lab",
+                "hostname": "winTest",
+                "interfaces": [
+                    {
+                        "gateway": "192.168.29.2",
+                        "name": "Ethernet0",
+                        "subnet": 24
+                    }
+                ]
+            }
+        }
+    },
+    "all": {
+        "children": [
+            "AD",
+            "docker",
+            "fixedIp",
+            "ungrouped",
+            "win"
+        ]
+    },
+    "domainController": {
+        "children": [
+            "domainMaster",
+            "domainReplica"
+        ]
+    },
+    "domainMaster": {
+        "hosts": [
+            "windowsLab1"
+        ]
+    },
+    "fixedIp": {
+        "hosts": [
+            "windowsLab2"
+        ]
+    },
+    "win": {
+        "hosts": [
+            "windowsLab1",
+            "windowsLab2"
+        ]
+    }
+}

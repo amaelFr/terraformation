@@ -1,0 +1,65 @@
+{
+    "archi": {
+        "type" : "object",
+        "properties": {
+            "publicNet": {
+                "type" : "object",
+                "properties": {
+                    "name": {"type": "string"},
+                    "cidr": {"type": "string"}
+                },
+                "required": ["name", "cidr"]
+            },
+            "networks": {
+                "type" : "array",
+                "items": {
+                    "type" : "object",
+                    "properties": {
+                        "name": {"type": "string"},
+                        "cidr": {"type": "string"}
+                    },
+                    "required": ["name", "cidr"]
+                }
+            },
+            "machines": {
+                "type" : "array",
+                "items": {
+                    "type" : "object",
+                    "properties": {
+                        "name": {"type": "string"},
+                        "type": {"type": "string"},
+                        "version": {"type": "string"},
+                        "ips": {
+                            "type" : "array",
+                            "items": { "type" : "string" },
+                            "minLen": 1
+                        }
+                    },
+                    "required": ["type", "ips"]
+                }
+            }
+        },
+        "required": ["publicNet", "networks", "machines"]
+    },
+    "static": {
+        "type" : "object",
+        "properties": {
+            "images": {
+                "type" : "array",
+                "items": {
+                    "type" : "object",
+                    "properties": {
+                        "name": {"type": "string"},
+                        "type": {"type": "string"},
+                        "version": {"type": "string"},
+                        "cloud-init": {"type": "string"},
+                        "defaultSsh": {"type": "boolean"},
+                        "defaultWinrm": {"type": "boolean"}
+                    },
+                    "required": ["name","type"]
+                }
+            }
+        },
+        "required": ["images"]
+    }
+}
