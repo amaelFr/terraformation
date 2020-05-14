@@ -11,8 +11,8 @@ import os.path
 import argparse
 
 parser = argparse.ArgumentParser( description="Tools used to generate terraform files for architecture")
-parser.add_argument('-a', '--archi', type=str, default="./archi.json", help="archi.json path")
-parser.add_argument('-s', '--static', type=str, default="./static.json", help="static.json path")
+parser.add_argument('-a', '--archi', type=str, dest="archi", default="./archi.json", help="archi.json path")
+parser.add_argument('-s', '--static', type=str, dest="static", default="./static.json", help="static.json path")
 parser.add_argument('-i', '--inventory', type=str, dest="inventory", default="", help="inventory fiel from ansible-inventory -i path/to/inventory --list --output inventory.json")
 
 args = parser.parse_args()
@@ -35,7 +35,7 @@ with open('schema.json') as schema_file:
 
     config = ts.Terrascript()
 
-    with open('static.json') as static_file:
+    with open(args.static) as static_file:
         static = json.load(static_file)
         validate(instance=static, schema=schema['static'])
 
@@ -50,7 +50,7 @@ with open('schema.json') as schema_file:
             if 'cloud-init' in image and (not os.path.exists(image['cloud-init']) or not os.path.isfile(image['cloud-init'])):
                 raiseError("Invalid cloud-init, it must be a cloud-init format")                
 
-        with open('archi.json') as archi_file:
+        with open(args.archi) as archi_file:
             archi = json.load(archi_file)
 
             if ansible:
