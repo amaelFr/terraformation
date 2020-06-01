@@ -34,27 +34,6 @@
                         "subnet": 24
                     }
                 ]
-            },
-            "windowsLab2": {
-                "DNSIP": [
-                    "192.168.29.160"
-                ],
-                "ansible_connection": "winrm",
-                "ansible_host": "172.24.4.211",
-                "ansible_password": "V@grant1",
-                "ansible_user": "Administrator",
-                "ansible_winrm_port": 5985,
-                "ansible_winrm_scheme": "http",
-                "ansible_winrm_transport": "basic",
-                "domain": "win.lab",
-                "hostname": "winTest",
-                "interfaces": [
-                    {
-                        "gateway": "192.168.29.2",
-                        "name": "Ethernet0",
-                        "subnet": 24
-                    }
-                ]
             }
         }
     },

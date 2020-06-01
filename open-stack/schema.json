@@ -33,7 +33,10 @@
                             "type" : "array",
                             "items": { "type" : "string" },
                             "minLen": 1
-                        }
+                        },
+                        "ram": { "type": "integer", "multipleOf" : 512, "minimum": 512, "maximum": 16384},
+                        "cpu": { "type": "integer", "minimum": 1, "maximum": 12},
+                        "disk": { "type": "integer", "minimum": 10}
                     },
                     "required": ["type", "ips"]
                 }
@@ -54,9 +57,12 @@
                         "version": {"type": "string"},
                         "cloud-init": {"type": "string"},
                         "defaultSsh": {"type": "boolean"},
-                        "defaultWinrm": {"type": "boolean"}
+                        "defaultWinrm": {"type": "boolean"},
+                        "ram": { "type": "integer", "multipleOf" : 512, "minimum": 512, "maximum": 16384},
+                        "cpu": { "type": "integer", "minimum": 1, "maximum": 12},
+                        "disk": { "type": "integer", "minimum": 10}
                     },
-                    "required": ["name","type"]
+                    "required": ["name","type","ram","cpu", "disk"]
                 }
             }
         },

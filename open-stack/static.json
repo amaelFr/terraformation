@@ -5,20 +5,35 @@
             "version": "20.04",
             "name": "ubuntu20.04",
             "cloud-init":"/home/x1/Documents/3proj/terraform/cloud-init/ubuntu_cloud_init.yml",
-            "defaultSsh": true
+            "defaultSsh": true,
+            "ram": 2048,
+            "cpu": 2,
+            "disk": 20
         },
         {
             "type": "ubuntu",
             "version": "18.04",
             "name": "ubuntu18.04",
-            "cloud-init":"/home/x1/Documents/3proj/terraform/cloud-init/ubuntu_cloud_init.yml"
+            "cloud-init":"/home/x1/Documents/3proj/terraform/cloud-init/ubuntu_cloud_init.yml",
+            "ram": 2048,
+            "cpu": 2,
+            "disk": 20
         },
         {
             "type": "windows",
             "version": "2016",
-            "name": "windows2016",
-            "cloud-init":"/home/x1/Documents/3proj/terraform/cloud-init/windows_cloud_init.yml",
-            "defaultWinrm": true
+            "name": "window2016GUIvagrant",
+            "defaultWinrm":true,
+            "ram": 4096,
+            "cpu": 4,
+            "disk": 60
+        },
+        {
+            "type": "pfsense",
+            "name": "pfsense",
+            "ram": 4096,
+            "cpu": 4,
+            "disk": 20
         }
     ]
 }

@@ -15,27 +15,11 @@
     ],
     "machines": [
         {
-            "name": "optional",
-            "type": "ubuntu",
-            "version": "20.04",
+            "name": "pfsense",
+            "type": "pfsense",
             "ips":[
-                "172.24.4.201",
-                "172.20.20.12"
-            ]
-        },
-        {
-            "name": "optional1",
-            "type": "ubuntu",
-            "version": "20.04",
-            "ips":[
-                "172.24.4.202"
-            ]
-        },
-        {
-            "type": "router",
-            "ips":[
-                "172.24.4.203",
-                "172.20.20.203"
+                "172.24.4.200",
+                "172.20.20.20"
             ]
         }
     ]

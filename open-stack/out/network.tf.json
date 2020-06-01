@@ -1,0 +1,37 @@
+{
+  "data": {
+    "openstack_networking_network_v2": {
+      "public_net": {
+        "name": "public"
+      }
+    },
+    "openstack_networking_subnet_v2": {
+      "public_subnet": {
+        "network_id": "${data.openstack_networking_network_v2.public_net.id}",
+        "cidr": "172.24.4.0/24"
+      }
+    }
+  },
+  "resource": {
+    "openstack_networking_network_v2": {
+      "lab_network_internal_network": {
+        "name": "lab_network_internal_network"
+      },
+      "lab_network_internaltest_network": {
+        "name": "lab_network_internaltest_network"
+      }
+    },
+    "openstack_networking_subnet_v2": {
+      "lab_subnet_internal_network": {
+        "cidr": "172.20.20.0/24",
+        "network_id": "${openstack_networking_network_v2.lab_network_internal_network.id}",
+        "name": "lab_subnet_internal_network"
+      },
+      "lab_subnet_internaltest_network": {
+        "cidr": "172.20.21.0/24",
+        "network_id": "${openstack_networking_network_v2.lab_network_internaltest_network.id}",
+        "name": "lab_subnet_internaltest_network"
+      }
+    }
+  }
+}
