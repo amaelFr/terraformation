@@ -6,7 +6,8 @@
                 "type" : "object",
                 "properties": {
                     "name": {"type": "string"},
-                    "cidr": {"type": "string"}
+                    "cidr": {"type": "string"},
+                    "dhcp": {"type": "boolean", "default": false}
                 },
                 "required": ["name", "cidr"]
             },

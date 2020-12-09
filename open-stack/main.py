@@ -141,7 +141,7 @@ with open('schema.json') as schema_file:
                     'lab_network_'+network['name'], name='lab_network_'+network['name'])
                 network['ts_net_id'] = "${"+network['ts_net'].id+"}"
                 network['ts_subnet'] = resource.openstack_networking_subnet_v2(
-                    'lab_subnet_'+network['name'], cidr=network['cidr'], network_id=network['ts_net_id'], name='lab_subnet_'+network['name'])
+                    'lab_subnet_'+network['name'], cidr=network['cidr'], network_id=network['ts_net_id'], name='lab_subnet_'+network['name'], enable_dhcp=network['dhcp'] if 'dhcp' in network else False)
                 network['ts_subnet_id'] = "${"+network['ts_subnet'].id+"}"
 
                 tsNet.add(network['ts_net'])
@@ -191,7 +191,9 @@ with open('schema.json') as schema_file:
 
                     machine['ips'][i]['network'] = foundNetwork
                     machine['ips'][i]['ts_port'] = resource.openstack_networking_port_v2("lab_port_ip"+re.sub(r'\.', '', machine['ips'][i]['ip']), network_id=foundNetwork['ts_net_id'], fixed_ip={
-                                                                                         'subnet_id': foundNetwork['ts_subnet_id'], 'ip_address': machine['ips'][i]['ip']})
+                                                                                         'subnet_id': foundNetwork['ts_subnet_id'], 'ip_address': machine['ips'][i]['ip']}, port_security_enabled=False)
+                    # machine['ips'][i]['ts_port'] = resource.openstack_networking_port_v2("lab_port_ip"+re.sub(r'\.', '', machine['ips'][i]['ip']), network_id=foundNetwork['ts_net_id'], fixed_ip={
+                    #                                                                      'subnet_id': foundNetwork['ts_subnet_id'], 'ip_address': machine['ips'][i]['ip']}, allowed_address_pairs= { 'ip_address': '0.0.0.0/0' })
                     machine['ips'][i]['ts_port_id'] = "${" + \
                         machine['ips'][i]['ts_port'].id+"}"
 
@@ -221,17 +223,20 @@ with open('schema.json') as schema_file:
                         raiseError(
                             "Image not found for the machine: "+machine['name'])
 
+
+                    blockstorage = tsMachine.add(resource.openstack_blockstorage_volume_v2('lab_volume_'+machine['name'], name='lab_volume_'+machine['name'], image_id=foundImage['ts_image_id'], size=machine['disk'] if 'disk' in machine else foundImage['disk']))
+
                     flavor = tsMachine.add(resource.openstack_compute_flavor_v2('lab_flavor_'+machine['name'], name='lab_flavor_'+machine['name'], disk=machine['disk'] if 'disk' in machine else foundImage[
                                            'disk'], ram=machine['ram'] if 'ram' in machine else foundImage['ram'], vcpus=machine['cpu'] if 'cpu' in machine else foundImage['cpu']))
 
                     if 'cloud-init' in foundImage:
-                        tsMachine.add(resource.openstack_compute_instance_v2(machine['name'], name=machine['name'], block_device=[{'uuid': foundImage['ts_image_id'], 'source_type': "image", 'volume_size': machine['disk'] if 'disk' in machine else foundImage['disk'], 'boot_index': 0, 'destination_type': "volume", 'delete_on_termination': True}], flavor_id="${"+flavor.id+"}", security_groups=[
-                                      "default"], network=[({'uuid': interface['network']['ts_net_id'], 'port':interface['ts_port_id']}) for interface in machine['ips']], user_data='${file("'+foundImage['cloud-init']+'")}', config_drive=True))
-                        # config.add(
-                        #     ts.output("testing", value='${file("'+foundImage['cloud-init']+'")}'))
+                        tsMachine.add(resource.openstack_compute_instance_v2(machine['name'], name=machine['name'], block_device=[{'uuid': "${"+blockstorage.id+"}", 'source_type': "volume", 'boot_index': 0, 'destination_type': "volume", 'delete_on_termination': True}], flavor_id="${"+flavor.id+"}", network=[({'uuid': interface['network']['ts_net_id'], 'port':interface['ts_port_id']}) for interface in machine['ips']], user_data='${file("'+foundImage['cloud-init']+'")}', config_drive=True))
+                        # tsMachine.add(resource.openstack_compute_instance_v2(machine['name'], name=machine['name'], block_device=[{'uuid': "${"+blockstorage.id+"}", 'source_type': "volume", 'boot_index': 0, 'destination_type': "volume", 'delete_on_termination': True}], flavor_id="${"+flavor.id+"}", security_groups=["default"], network=[({'uuid': interface['network']['ts_net_id'], 'port':interface['ts_port_id']}) for interface in machine['ips']], user_data='${file("'+foundImage['cloud-init']+'")}', config_drive=True))
                     else:
-                        tsMachine.add(resource.openstack_compute_instance_v2(machine['name'], name=machine['name'], block_device=[{'uuid': foundImage['ts_image_id'], 'source_type': "image", 'volume_size': machine['disk'] if 'disk' in machine else foundImage['disk'], 'boot_index': 0, 'destination_type': "volume",
-                                                                                                                                  'delete_on_termination': True}], flavor_id="${"+flavor.id+"}", security_groups=["default"], network=[({'uuid': interface['network']['ts_net_id'], 'port':interface['ts_port_id']}) for interface in machine['ips']]))
+                        tsMachine.add(resource.openstack_compute_instance_v2(machine['name'], name=machine['name'], block_device=[{'uuid': "${"+blockstorage.id+"}", 'source_type': "volume", 'boot_index': 0, 'destination_type': "volume",
+                                                                                                                                  'delete_on_termination': True}], flavor_id="${"+flavor.id+"}", network=[({'uuid': interface['network']['ts_net_id'], 'port':interface['ts_port_id']}) for interface in machine['ips']]))
+                        # tsMachine.add(resource.openstack_compute_instance_v2(machine['name'], name=machine['name'], block_device=[{'uuid': "${"+blockstorage.id+"}", 'source_type': "volume", 'boot_index': 0, 'destination_type': "volume",
+                        #                                                                                                           'delete_on_termination': True}], flavor_id="${"+flavor.id+"}", security_groups=["default"], network=[({'uuid': interface['network']['ts_net_id'], 'port':interface['ts_port_id']}) for interface in machine['ips']]))
 
                     [tsMachine.add(interface['ts_port'])
                      for interface in machine['ips']]

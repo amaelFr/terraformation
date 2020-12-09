@@ -1,56 +1,401 @@
 {
   "resource": {
+    "openstack_blockstorage_volume_v2": {
+      "lab_volume_lab_machine_pfsenseWAN": {
+        "name": "lab_volume_lab_machine_pfsenseWAN",
+        "image_id": "${data.openstack_images_image_v2.pfsense.id}",
+        "size": 30
+      },
+      "lab_volume_lab_machine_pfsenseServices": {
+        "name": "lab_volume_lab_machine_pfsenseServices",
+        "image_id": "${data.openstack_images_image_v2.pfsense.id}",
+        "size": 30
+      },
+      "lab_volume_lab_machine_AD_pki": {
+        "name": "lab_volume_lab_machine_AD_pki",
+        "image_id": "${data.openstack_images_image_v2.windows2016GUI.id}",
+        "size": 60
+      },
+      "lab_volume_lab_machine_file_share": {
+        "name": "lab_volume_lab_machine_file_share",
+        "image_id": "${data.openstack_images_image_v2.windows2016GUI.id}",
+        "size": 60
+      },
+      "lab_volume_lab_machine_docker_dmz": {
+        "name": "lab_volume_lab_machine_docker_dmz",
+        "image_id": "${data.openstack_images_image_v2.ubuntu1804.id}",
+        "size": 20
+      },
+      "lab_volume_lab_machine_docker_internal": {
+        "name": "lab_volume_lab_machine_docker_internal",
+        "image_id": "${data.openstack_images_image_v2.ubuntu1804.id}",
+        "size": 20
+      },
+      "lab_volume_lab_machine_windows_client": {
+        "name": "lab_volume_lab_machine_windows_client",
+        "image_id": "${data.openstack_images_image_v2.windows2016GUI.id}",
+        "size": 60
+      }
+    },
     "openstack_compute_flavor_v2": {
-      "lab_flavor_lab_machine_pfsense": {
-        "name": "lab_flavor_lab_machine_pfsense",
-        "disk": 20,
+      "lab_flavor_lab_machine_pfsenseWAN": {
+        "name": "lab_flavor_lab_machine_pfsenseWAN",
+        "disk": 30,
         "ram": 4096,
+        "vcpus": 2
+      },
+      "lab_flavor_lab_machine_pfsenseServices": {
+        "name": "lab_flavor_lab_machine_pfsenseServices",
+        "disk": 30,
+        "ram": 4096,
+        "vcpus": 2
+      },
+      "lab_flavor_lab_machine_AD_pki": {
+        "name": "lab_flavor_lab_machine_AD_pki",
+        "disk": 60,
+        "ram": 8192,
+        "vcpus": 2
+      },
+      "lab_flavor_lab_machine_file_share": {
+        "name": "lab_flavor_lab_machine_file_share",
+        "disk": 60,
+        "ram": 8192,
+        "vcpus": 2
+      },
+      "lab_flavor_lab_machine_docker_dmz": {
+        "name": "lab_flavor_lab_machine_docker_dmz",
+        "disk": 20,
+        "ram": 8192,
         "vcpus": 4
+      },
+      "lab_flavor_lab_machine_docker_internal": {
+        "name": "lab_flavor_lab_machine_docker_internal",
+        "disk": 20,
+        "ram": 8192,
+        "vcpus": 4
+      },
+      "lab_flavor_lab_machine_windows_client": {
+        "name": "lab_flavor_lab_machine_windows_client",
+        "disk": 60,
+        "ram": 8192,
+        "vcpus": 2
       }
     },
     "openstack_compute_instance_v2": {
-      "lab_machine_pfsense": {
-        "name": "lab_machine_pfsense",
+      "lab_machine_pfsenseWAN": {
+        "name": "lab_machine_pfsenseWAN",
         "block_device": [
           {
-            "uuid": "${data.openstack_images_image_v2.pfsense.id}",
-            "source_type": "image",
-            "volume_size": 20,
+            "uuid": "${openstack_blockstorage_volume_v2.lab_volume_lab_machine_pfsenseWAN.id}",
+            "source_type": "volume",
             "boot_index": 0,
             "destination_type": "volume",
             "delete_on_termination": true
           }
         ],
-        "flavor_id": "${openstack_compute_flavor_v2.lab_flavor_lab_machine_pfsense.id}",
-        "security_groups": [
-          "default"
-        ],
+        "flavor_id": "${openstack_compute_flavor_v2.lab_flavor_lab_machine_pfsenseWAN.id}",
         "network": [
           {
             "uuid": "${data.openstack_networking_network_v2.public_net.id}",
-            "port": "${openstack_networking_port_v2.lab_port_ip172244200.id}"
+            "port": "${openstack_networking_port_v2.lab_port_ip1921681161.id}"
           },
           {
-            "uuid": "${openstack_networking_network_v2.lab_network_internal_network.id}",
-            "port": "${openstack_networking_port_v2.lab_port_ip172202020.id}"
+            "uuid": "${data.openstack_networking_network_v2.public_net.id}",
+            "port": "${openstack_networking_port_v2.lab_port_ip1921681200.id}"
+          },
+          {
+            "uuid": "${openstack_networking_network_v2.lab_network_internal_connect.id}",
+            "port": "${openstack_networking_port_v2.lab_port_ip17220201.id}"
+          }
+        ]
+      },
+      "lab_machine_pfsenseServices": {
+        "name": "lab_machine_pfsenseServices",
+        "block_device": [
+          {
+            "uuid": "${openstack_blockstorage_volume_v2.lab_volume_lab_machine_pfsenseServices.id}",
+            "source_type": "volume",
+            "boot_index": 0,
+            "destination_type": "volume",
+            "delete_on_termination": true
+          }
+        ],
+        "flavor_id": "${openstack_compute_flavor_v2.lab_flavor_lab_machine_pfsenseServices.id}",
+        "network": [
+          {
+            "uuid": "${openstack_networking_network_v2.lab_network_internal_connect.id}",
+            "port": "${openstack_networking_port_v2.lab_port_ip17220202.id}"
+          },
+          {
+            "uuid": "${data.openstack_networking_network_v2.public_net.id}",
+            "port": "${openstack_networking_port_v2.lab_port_ip1921681202.id}"
+          },
+          {
+            "uuid": "${openstack_networking_network_v2.lab_network_internal_dmz.id}",
+            "port": "${openstack_networking_port_v2.lab_port_ip17220211.id}"
+          },
+          {
+            "uuid": "${openstack_networking_network_v2.lab_network_internal_ressource.id}",
+            "port": "${openstack_networking_port_v2.lab_port_ip17220221.id}"
+          }
+        ]
+      },
+      "lab_machine_AD_pki": {
+        "name": "lab_machine_AD_pki",
+        "block_device": [
+          {
+            "uuid": "${openstack_blockstorage_volume_v2.lab_volume_lab_machine_AD_pki.id}",
+            "source_type": "volume",
+            "boot_index": 0,
+            "destination_type": "volume",
+            "delete_on_termination": true
+          }
+        ],
+        "flavor_id": "${openstack_compute_flavor_v2.lab_flavor_lab_machine_AD_pki.id}",
+        "network": [
+          {
+            "uuid": "${data.openstack_networking_network_v2.public_net.id}",
+            "port": "${openstack_networking_port_v2.lab_port_ip1921681203.id}"
+          },
+          {
+            "uuid": "${openstack_networking_network_v2.lab_network_internal_ressource.id}",
+            "port": "${openstack_networking_port_v2.lab_port_ip17220222.id}"
+          }
+        ]
+      },
+      "lab_machine_file_share": {
+        "name": "lab_machine_file_share",
+        "block_device": [
+          {
+            "uuid": "${openstack_blockstorage_volume_v2.lab_volume_lab_machine_file_share.id}",
+            "source_type": "volume",
+            "boot_index": 0,
+            "destination_type": "volume",
+            "delete_on_termination": true
+          }
+        ],
+        "flavor_id": "${openstack_compute_flavor_v2.lab_flavor_lab_machine_file_share.id}",
+        "network": [
+          {
+            "uuid": "${data.openstack_networking_network_v2.public_net.id}",
+            "port": "${openstack_networking_port_v2.lab_port_ip1921681204.id}"
+          },
+          {
+            "uuid": "${openstack_networking_network_v2.lab_network_internal_ressource.id}",
+            "port": "${openstack_networking_port_v2.lab_port_ip17220223.id}"
+          }
+        ]
+      },
+      "lab_machine_docker_dmz": {
+        "name": "lab_machine_docker_dmz",
+        "block_device": [
+          {
+            "uuid": "${openstack_blockstorage_volume_v2.lab_volume_lab_machine_docker_dmz.id}",
+            "source_type": "volume",
+            "boot_index": 0,
+            "destination_type": "volume",
+            "delete_on_termination": true
+          }
+        ],
+        "flavor_id": "${openstack_compute_flavor_v2.lab_flavor_lab_machine_docker_dmz.id}",
+        "network": [
+          {
+            "uuid": "${data.openstack_networking_network_v2.public_net.id}",
+            "port": "${openstack_networking_port_v2.lab_port_ip1921681205.id}"
+          },
+          {
+            "uuid": "${openstack_networking_network_v2.lab_network_internal_dmz.id}",
+            "port": "${openstack_networking_port_v2.lab_port_ip17220212.id}"
+          }
+        ],
+        "user_data": "${file(\"/home/x1/Documents/3proj/terraform/cloud-init/ubuntu_cloud_init.yml\")}",
+        "config_drive": true
+      },
+      "lab_machine_docker_internal": {
+        "name": "lab_machine_docker_internal",
+        "block_device": [
+          {
+            "uuid": "${openstack_blockstorage_volume_v2.lab_volume_lab_machine_docker_internal.id}",
+            "source_type": "volume",
+            "boot_index": 0,
+            "destination_type": "volume",
+            "delete_on_termination": true
+          }
+        ],
+        "flavor_id": "${openstack_compute_flavor_v2.lab_flavor_lab_machine_docker_internal.id}",
+        "network": [
+          {
+            "uuid": "${data.openstack_networking_network_v2.public_net.id}",
+            "port": "${openstack_networking_port_v2.lab_port_ip1921681206.id}"
+          },
+          {
+            "uuid": "${openstack_networking_network_v2.lab_network_internal_ressource.id}",
+            "port": "${openstack_networking_port_v2.lab_port_ip17220224.id}"
+          }
+        ],
+        "user_data": "${file(\"/home/x1/Documents/3proj/terraform/cloud-init/ubuntu_cloud_init.yml\")}",
+        "config_drive": true
+      },
+      "lab_machine_windows_client": {
+        "name": "lab_machine_windows_client",
+        "block_device": [
+          {
+            "uuid": "${openstack_blockstorage_volume_v2.lab_volume_lab_machine_windows_client.id}",
+            "source_type": "volume",
+            "boot_index": 0,
+            "destination_type": "volume",
+            "delete_on_termination": true
+          }
+        ],
+        "flavor_id": "${openstack_compute_flavor_v2.lab_flavor_lab_machine_windows_client.id}",
+        "network": [
+          {
+            "uuid": "${data.openstack_networking_network_v2.public_net.id}",
+            "port": "${openstack_networking_port_v2.lab_port_ip1921681207.id}"
+          },
+          {
+            "uuid": "${openstack_networking_network_v2.lab_network_internal_endpoint.id}",
+            "port": "${openstack_networking_port_v2.lab_port_ip172202310.id}"
           }
         ]
       }
     },
     "openstack_networking_port_v2": {
-      "lab_port_ip172244200": {
+      "lab_port_ip1921681161": {
         "network_id": "${data.openstack_networking_network_v2.public_net.id}",
         "fixed_ip": {
           "subnet_id": "${data.openstack_networking_subnet_v2.public_subnet.id}",
-          "ip_address": "172.24.4.200"
-        }
+          "ip_address": "192.168.1.161"
+        },
+        "port_security_enabled": false
       },
-      "lab_port_ip172202020": {
-        "network_id": "${openstack_networking_network_v2.lab_network_internal_network.id}",
+      "lab_port_ip1921681200": {
+        "network_id": "${data.openstack_networking_network_v2.public_net.id}",
         "fixed_ip": {
-          "subnet_id": "${openstack_networking_subnet_v2.lab_subnet_internal_network.id}",
-          "ip_address": "172.20.20.20"
-        }
+          "subnet_id": "${data.openstack_networking_subnet_v2.public_subnet.id}",
+          "ip_address": "192.168.1.200"
+        },
+        "port_security_enabled": false
+      },
+      "lab_port_ip17220201": {
+        "network_id": "${openstack_networking_network_v2.lab_network_internal_connect.id}",
+        "fixed_ip": {
+          "subnet_id": "${openstack_networking_subnet_v2.lab_subnet_internal_connect.id}",
+          "ip_address": "172.20.20.1"
+        },
+        "port_security_enabled": false
+      },
+      "lab_port_ip17220202": {
+        "network_id": "${openstack_networking_network_v2.lab_network_internal_connect.id}",
+        "fixed_ip": {
+          "subnet_id": "${openstack_networking_subnet_v2.lab_subnet_internal_connect.id}",
+          "ip_address": "172.20.20.2"
+        },
+        "port_security_enabled": false
+      },
+      "lab_port_ip1921681202": {
+        "network_id": "${data.openstack_networking_network_v2.public_net.id}",
+        "fixed_ip": {
+          "subnet_id": "${data.openstack_networking_subnet_v2.public_subnet.id}",
+          "ip_address": "192.168.1.202"
+        },
+        "port_security_enabled": false
+      },
+      "lab_port_ip17220211": {
+        "network_id": "${openstack_networking_network_v2.lab_network_internal_dmz.id}",
+        "fixed_ip": {
+          "subnet_id": "${openstack_networking_subnet_v2.lab_subnet_internal_dmz.id}",
+          "ip_address": "172.20.21.1"
+        },
+        "port_security_enabled": false
+      },
+      "lab_port_ip17220221": {
+        "network_id": "${openstack_networking_network_v2.lab_network_internal_ressource.id}",
+        "fixed_ip": {
+          "subnet_id": "${openstack_networking_subnet_v2.lab_subnet_internal_ressource.id}",
+          "ip_address": "172.20.22.1"
+        },
+        "port_security_enabled": false
+      },
+      "lab_port_ip1921681203": {
+        "network_id": "${data.openstack_networking_network_v2.public_net.id}",
+        "fixed_ip": {
+          "subnet_id": "${data.openstack_networking_subnet_v2.public_subnet.id}",
+          "ip_address": "192.168.1.203"
+        },
+        "port_security_enabled": false
+      },
+      "lab_port_ip17220222": {
+        "network_id": "${openstack_networking_network_v2.lab_network_internal_ressource.id}",
+        "fixed_ip": {
+          "subnet_id": "${openstack_networking_subnet_v2.lab_subnet_internal_ressource.id}",
+          "ip_address": "172.20.22.2"
+        },
+        "port_security_enabled": false
+      },
+      "lab_port_ip1921681204": {
+        "network_id": "${data.openstack_networking_network_v2.public_net.id}",
+        "fixed_ip": {
+          "subnet_id": "${data.openstack_networking_subnet_v2.public_subnet.id}",
+          "ip_address": "192.168.1.204"
+        },
+        "port_security_enabled": false
+      },
+      "lab_port_ip17220223": {
+        "network_id": "${openstack_networking_network_v2.lab_network_internal_ressource.id}",
+        "fixed_ip": {
+          "subnet_id": "${openstack_networking_subnet_v2.lab_subnet_internal_ressource.id}",
+          "ip_address": "172.20.22.3"
+        },
+        "port_security_enabled": false
+      },
+      "lab_port_ip1921681205": {
+        "network_id": "${data.openstack_networking_network_v2.public_net.id}",
+        "fixed_ip": {
+          "subnet_id": "${data.openstack_networking_subnet_v2.public_subnet.id}",
+          "ip_address": "192.168.1.205"
+        },
+        "port_security_enabled": false
+      },
+      "lab_port_ip17220212": {
+        "network_id": "${openstack_networking_network_v2.lab_network_internal_dmz.id}",
+        "fixed_ip": {
+          "subnet_id": "${openstack_networking_subnet_v2.lab_subnet_internal_dmz.id}",
+          "ip_address": "172.20.21.2"
+        },
+        "port_security_enabled": false
+      },
+      "lab_port_ip1921681206": {
+        "network_id": "${data.openstack_networking_network_v2.public_net.id}",
+        "fixed_ip": {
+          "subnet_id": "${data.openstack_networking_subnet_v2.public_subnet.id}",
+          "ip_address": "192.168.1.206"
+        },
+        "port_security_enabled": false
+      },
+      "lab_port_ip17220224": {
+        "network_id": "${openstack_networking_network_v2.lab_network_internal_ressource.id}",
+        "fixed_ip": {
+          "subnet_id": "${openstack_networking_subnet_v2.lab_subnet_internal_ressource.id}",
+          "ip_address": "172.20.22.4"
+        },
+        "port_security_enabled": false
+      },
+      "lab_port_ip1921681207": {
+        "network_id": "${data.openstack_networking_network_v2.public_net.id}",
+        "fixed_ip": {
+          "subnet_id": "${data.openstack_networking_subnet_v2.public_subnet.id}",
+          "ip_address": "192.168.1.207"
+        },
+        "port_security_enabled": false
+      },
+      "lab_port_ip172202310": {
+        "network_id": "${openstack_networking_network_v2.lab_network_internal_endpoint.id}",
+        "fixed_ip": {
+          "subnet_id": "${openstack_networking_subnet_v2.lab_subnet_internal_endpoint.id}",
+          "ip_address": "172.20.23.10"
+        },
+        "port_security_enabled": false
       }
     }
   }
