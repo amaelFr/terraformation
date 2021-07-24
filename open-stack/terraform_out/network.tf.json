@@ -1,0 +1,88 @@
+{
+  "data": {
+    "openstack_networking_network_v2": {
+      "public_net": {
+        "name": "public"
+      }
+    },
+    "openstack_networking_subnet_v2": {
+      "public_subnet": {
+        "network_id": "${data.openstack_networking_network_v2.public_net.id}",
+        "cidr": "192.168.1.0/24"
+      }
+    }
+  },
+  "resource": {
+    "openstack_networking_network_v2": {
+      "lab_network_internal_connect": {
+        "name": "lab_network_internal_connect"
+      },
+      "lab_network_internal_dmz": {
+        "name": "lab_network_internal_dmz"
+      },
+      "lab_network_internal_ressource": {
+        "name": "lab_network_internal_ressource"
+      },
+      "lab_network_internal_endpoint": {
+        "name": "lab_network_internal_endpoint"
+      }
+    },
+    "openstack_networking_subnet_v2": {
+      "lab_subnet_internal_connect": {
+        "cidr": "172.20.20.0/24",
+        "network_id": "${openstack_networking_network_v2.lab_network_internal_connect.id}",
+        "name": "lab_subnet_internal_connect",
+        "enable_dhcp": false
+      },
+      "lab_subnet_internal_dmz": {
+        "cidr": "172.20.21.0/24",
+        "network_id": "${openstack_networking_network_v2.lab_network_internal_dmz.id}",
+        "name": "lab_subnet_internal_dmz",
+        "enable_dhcp": false
+      },
+      "lab_subnet_internal_ressource": {
+        "cidr": "172.20.22.0/24",
+        "network_id": "${openstack_networking_network_v2.lab_network_internal_ressource.id}",
+        "name": "lab_subnet_internal_ressource",
+        "enable_dhcp": false
+      },
+      "lab_subnet_internal_endpoint": {
+        "cidr": "172.20.23.0/24",
+        "network_id": "${openstack_networking_network_v2.lab_network_internal_endpoint.id}",
+        "name": "lab_subnet_internal_endpoint",
+        "enable_dhcp": true
+      }
+    },
+    "openstack_networking_router_v2": {
+      "lab_machine_router_internal": {}
+    },
+    "openstack_networking_router_interface_v2": {
+      "interface0_router_lab_machine_router_internal": {
+        "router_id": "${openstack_networking_router_v2.lab_machine_router_internal.id}",
+        "port_id": "${openstack_networking_port_v2.lab_port_ip17220203.id}"
+      },
+      "interface1_router_lab_machine_router_internal": {
+        "router_id": "${openstack_networking_router_v2.lab_machine_router_internal.id}",
+        "port_id": "${openstack_networking_port_v2.lab_port_ip17220231.id}"
+      }
+    },
+    "openstack_networking_port_v2": {
+      "lab_port_ip17220203": {
+        "network_id": "${openstack_networking_network_v2.lab_network_internal_connect.id}",
+        "fixed_ip": {
+          "subnet_id": "${openstack_networking_subnet_v2.lab_subnet_internal_connect.id}",
+          "ip_address": "172.20.20.3"
+        },
+        "port_security_enabled": false
+      },
+      "lab_port_ip17220231": {
+        "network_id": "${openstack_networking_network_v2.lab_network_internal_endpoint.id}",
+        "fixed_ip": {
+          "subnet_id": "${openstack_networking_subnet_v2.lab_subnet_internal_endpoint.id}",
+          "ip_address": "172.20.23.1"
+        },
+        "port_security_enabled": false
+      }
+    }
+  }
+}

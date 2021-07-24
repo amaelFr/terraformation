@@ -1,0 +1,15 @@
+{
+  "data": {
+    "openstack_images_image_v2": {
+      "ubuntu1804": {
+        "name": "ubuntu18.04"
+      },
+      "windows2016GUI": {
+        "name": "windows2016GUI"
+      },
+      "pfsense": {
+        "name": "pfsense"
+      }
+    }
+  }
+}
