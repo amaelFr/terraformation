@@ -4,6 +4,9 @@
       "ubuntu1804": {
         "name": "ubuntu18.04"
       },
+      "debian10": {
+        "name": "debian10"
+      },
       "windows2016GUI": {
         "name": "windows2016GUI"
       },

@@ -4,7 +4,16 @@
             "type": "ubuntu",
             "version": "18.04",
             "name": "ubuntu18.04",
-            "cloud-init":"/home/x1/Documents/3proj/terraform/cloud-init/ubuntu_cloud_init.yml",
+            "cloud-init":"../cloud-init/ubuntu_cloud_init.yml",
+            "ram": 8192,
+            "cpu": 4,
+            "disk": 20
+        },
+        {
+            "type": "debian",
+            "version": "10",
+            "name": "debian10",
+            "cloud-init":"../cloud-init/ubuntu_cloud_init.yml",
             "ram": 8192,
             "cpu": 4,
             "disk": 20

@@ -1,25 +1,20 @@
 {
     "publicNet": {
         "name": "public",
-        "cidr": "192.168.1.0/24"
+        "cidr": "192.168.0.0/24"
     },
     "networks": [
         {
-            "name": "internal_connect",
-            "cidr": "172.20.20.0/24"
+            "name": "conf_net",
+            "cidr": "172.16.10.0/24"
         },
         {
-            "name": "internal_dmz",
-            "cidr": "172.20.21.0/24"
+            "name": "service_net",
+            "cidr": "172.16.100.0/24"
         },
         {
-            "name": "internal_ressource",
-            "cidr": "172.20.22.0/24"
-        },
-        {
-            "name": "internal_endpoint",
-            "cidr": "172.20.23.0/24",
-            "dhcp": true
+            "name": "identity_net",
+            "cidr": "172.16.110.0/24"
         }
     ],
     "machines": [
@@ -27,77 +22,28 @@
             "name": "pfsenseWAN",
             "type": "pfsense",
             "ips":[
-                "192.168.1.161",
-                "192.168.1.200",
-                "172.20.20.1"
+                "192.168.0.0",
+                "172.16.10.100",
+                "172.16.100.1",
+                "172.16.110.1"
             ]
         },
         {
-            "name": "pfsenseServices",
-            "type": "pfsense",
+            "name": "identity",
+            "type": "debian",
+            "version": "10",
             "ips":[
-                "172.20.20.2",
-                "192.168.1.202",
-                "172.20.21.1",
-                "172.20.22.1"
+                "172.16.10.110",
+                "172.16.100.10"
             ]
         },
         {
-            "name": "router_internal",
-            "type": "router",
+            "name": "central_log",
+            "type": "debian",
+            "version": "10",
             "ips":[
-                "172.20.20.3",
-                "172.20.23.1"
-            ]
-        },
-
-
-        {
-            "name": "AD_pki",
-            "type": "windows",
-            "version": "2016",
-            "ips":[
-                "192.168.1.203",
-                "172.20.22.2"
-            ]
-        },
-        {
-            "name": "file_share",
-            "type": "windows",
-            "version": "2016",
-            "ips":[
-                "192.168.1.204",
-                "172.20.22.3"
-            ]
-        },
-
-
-        {
-            "name": "docker_dmz",
-            "type": "ubuntu",
-            "version": "18.04",
-            "ips":[
-                "192.168.1.205",
-                "172.20.21.2"
-            ]
-        },{
-            "name": "docker_internal",
-            "type": "ubuntu",
-            "version": "18.04",
-            "ips":[
-                "192.168.1.206",
-                "172.20.22.4"
-            ]
-        },
-
-
-        {
-            "name": "windows_client",
-            "type": "windows",
-            "version": "2016",
-            "ips":[
-                "192.168.1.207",
-                "172.20.23.10"
+                "172.16.10.120",
+                "172.16.110.10"
             ]
         }
     ]
